@@ -442,7 +442,7 @@ export function probe(runtime: string, command: string): { out: string; code: nu
     runtime,
     ["run", "--rm", "--network=none", ...HARDENING,
      "-v", `${SUITES}:/suites:ro`,
-     "--entrypoint", JSON.stringify(["/bin/sh", "-c", command]), IMAGE],
+     "--entrypoint", "/bin/sh", IMAGE, "-c", command],
     { encoding: "utf-8", timeout: 60_000 },
   );
   return { out: (result.stdout ?? "") + (result.stderr ?? ""), code: result.status ?? -1 };

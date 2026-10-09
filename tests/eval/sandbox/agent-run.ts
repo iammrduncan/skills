@@ -14,6 +14,7 @@
  */
 
 import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { Agent } from "@earendil-works/pi-agent-core";
 import type { AgentMessage } from "@earendil-works/pi-agent-core";
@@ -514,7 +515,10 @@ function inContainer(): boolean {
   return fs.existsSync("/run/.containerenv") || fs.existsSync("/.dockerenv");
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (
+  process.argv[1] &&
+  fs.realpathSync(fileURLToPath(import.meta.url)) === fs.realpathSync(process.argv[1])
+) {
   if (!inContainer()) {
     process.stderr.write(
       "agent-run.ts refuses to run outside a container.\n" +

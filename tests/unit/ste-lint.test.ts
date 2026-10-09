@@ -507,6 +507,42 @@ describe("regressions", () => {
   });
 });
 
+// --- Direct-entry invocation -------------------------------------------------
+
+describe("direct-entry invocation", () => {
+  it("runs main() when invoked directly", () => {
+    const result = spawnSync(process.execPath, [LINTER, "--version"], { encoding: "utf-8" });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+  });
+
+  it("runs main() through a path containing spaces", () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "direct-entry "));
+    const copy = path.join(root, "ste_lint.mjs");
+    fs.copyFileSync(LINTER, copy);
+    const result = spawnSync(process.execPath, [copy, "--version"], { encoding: "utf-8" });
+    fs.rmSync(root, { recursive: true, force: true });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+  });
+
+  it("runs main() when invoked through a symlink", (t) => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "direct-entry-symlink-"));
+    const link = path.join(root, "ste_lint.mjs");
+    try {
+      fs.symlinkSync(LINTER, link);
+    } catch (error) {
+      fs.rmSync(root, { recursive: true, force: true });
+      t.skip(`cannot create symlinks in this environment: ${String(error)}`);
+      return;
+    }
+    const result = spawnSync(process.execPath, [link, "--version"], { encoding: "utf-8" });
+    fs.rmSync(root, { recursive: true, force: true });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+  });
+});
+
 // --- The shipped package ---------------------------------------------------
 
 describe("shipped package", () => {

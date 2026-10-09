@@ -289,6 +289,48 @@ describe("prose rules", () => {
   });
 });
 
+describe("direct-entry invocation", () => {
+  const STRUCTURE_LINTER = path.join(SKILL, "scripts", "structure_lint.mjs");
+  const PROSE_LINTER = path.join(SKILL, "scripts", "prose_lint.mjs");
+
+  for (const [name, script] of [
+    ["structure_lint.mjs", STRUCTURE_LINTER],
+    ["prose_lint.mjs", PROSE_LINTER],
+  ] as const) {
+    it(`${name} runs main() when invoked directly`, () => {
+      const result = spawnSync(process.execPath, [script, "--version"], { encoding: "utf-8" });
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+    });
+
+    it(`${name} runs main() through a path containing spaces`, () => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), "direct-entry "));
+      const copy = path.join(root, name);
+      fs.copyFileSync(script, copy);
+      const result = spawnSync(process.execPath, [copy, "--version"], { encoding: "utf-8" });
+      fs.rmSync(root, { recursive: true, force: true });
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+    });
+
+    it(`${name} runs main() when invoked through a symlink`, (t) => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), "direct-entry-symlink-"));
+      const link = path.join(root, name);
+      try {
+        fs.symlinkSync(script, link);
+      } catch (error) {
+        fs.rmSync(root, { recursive: true, force: true });
+        t.skip(`cannot create symlinks in this environment: ${String(error)}`);
+        return;
+      }
+      const result = spawnSync(process.execPath, [link, "--version"], { encoding: "utf-8" });
+      fs.rmSync(root, { recursive: true, force: true });
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /^\S+ \d+\.\d+\.\d+/);
+    });
+  }
+});
+
 describe("this repository is clean", () => {
   it("has no structural findings", () => {
     assert.deepEqual(checkRepository(REPO, STRUCTURE_RULES).findings.map((f) => `${f.rule} ${f.path}`), []);

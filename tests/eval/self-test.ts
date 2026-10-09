@@ -149,7 +149,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 
 const onHost = spawnSync(
   process.execPath,
-  [path.join(here, "..", "node_modules", ".bin", "tsx"), path.join(here, "sandbox", "agent-run.ts")],
+  [path.join(here, "..", "node_modules", "tsx", "dist", "cli.mjs"), path.join(here, "sandbox", "agent-run.ts")],
   { input: "{}", encoding: "utf-8", timeout: 60_000, env: { ...process.env, EVAL_IN_SANDBOX: "" } },
 );
 check(

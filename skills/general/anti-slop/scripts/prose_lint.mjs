@@ -474,6 +474,9 @@ export function main(argv = process.argv.slice(2)) {
   return findings.some((f) => SEVERITIES.indexOf(f.severity) <= threshold) ? 1 : 0;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (
+  process.argv[1] &&
+  fs.realpathSync(fileURLToPath(import.meta.url)) === fs.realpathSync(process.argv[1])
+) {
   process.exitCode = main();
 }
