@@ -75,7 +75,6 @@ Reach for the skill that owns a job rather than restating it:
 - work too big to hold in one change → `write-objectives`
 - a page that is the wrong shape → `write-docs`
 - prose that must meet the standard → `simplified-technical-english`
-- a dependency defect → `brometal-patching`
 
 ## Reference
 

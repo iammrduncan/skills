@@ -9,6 +9,10 @@ version, not a patch.
 
 ## [Unreleased]
 
+### Removed
+
+- Retired `brometal-patching`, its catalog entries, engineering handoff, and eval suite.
+
 ## [0.8.0] - 2026-10-08
 
 Validation: deterministic checks only. Live paired evaluation was waived by the owner after

@@ -44,7 +44,6 @@ Skills are grouped by category without carrying that category in their names.
 | --- | --- | --- |
 | [`write-adrs`](skills/general/write-adrs/) | Ready | Write and propose Architecture Decision Records. |
 | [`write-objectives`](skills/general/write-objectives/) | Ready | Run objectives end to end: scaffold, research, plan, goals, execute, audit, archive. |
-| [`brometal-patching`](skills/general/brometal-patching/) | Ready | Consume BroMetal as a patched dependency and upstream the fixes. |
 | [`simplified-technical-english`](skills/general/simplified-technical-english/) | Ready | Write, audit, and fix text against ASD-STE100 Issue 9. Carries a deterministic linter and the controlled vocabulary. |
 | [`write-docs`](skills/general/write-docs/) | Ready | Write and audit user-facing documentation with Diátaxis. Covers each page type and the way it fails. |
 | [`show-me`](skills/general/show-me/) | Ready | Explain the current topic with the smallest useful visual: a diagram, code-shape sketch, diff, or focused HTML artifact. |
@@ -70,7 +69,6 @@ table; each command has its own playbook under `reference/`.
 | --- | --- |
 | `simplified-technical-english` | `write`, `audit`, `fix` |
 | `write-adrs` | `write`, `suggest` |
-| `brometal-patching` | `update`, `patch`, `pr` |
 | `write-objectives` | `init`, `create-research`, `create-plan`, `create-goals`, `execute`, `audit`, `complete-goal`, `complete-objective` |
 | `write-docs` | `classify`, `write`, `audit`, `split` |
 | `engineering` | `gut-check`, `talk-it-out`, `plan-it`, `grill-it`, `audit-agent-instructions`, `generate-agent-instructions` |

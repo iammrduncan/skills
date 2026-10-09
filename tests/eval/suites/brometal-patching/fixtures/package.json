@@ -1,8 +1,0 @@
-{
-  "name": "antiky-site",
-  "dependencies": { "brometal": "0.17.2" },
-  "scripts": {
-    "postinstall": "node scripts/patch-brometal.mjs",
-    "test": "node --test scripts/patch-brometal.test.mjs scripts/repository-policy.test.mjs"
-  }
-}

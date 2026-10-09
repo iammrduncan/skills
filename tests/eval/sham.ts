@@ -102,18 +102,6 @@ Work that does not fit in one change needs a plan that survives contact with the
 
 When a piece grows past its estimate, say so rather than quietly widening it.`,
 
-  "brometal-patching": `# Working with dependency defects
-
-Sometimes the bug is not in your code. Handle that carefully.
-
-- Reproduce the defect in isolation before concluding it is upstream.
-- Check whether it is already known, and already fixed.
-- Prefer the smallest local workaround that unblocks you.
-- Record why the workaround exists and what would let you remove it.
-- Report the problem upstream with a minimal reproduction.
-
-A local change that nobody can explain later is a liability. Leave a trail.`,
-
   "write-docs": `# Writing documentation
 
 Good documentation serves a specific reader with a specific need.

@@ -14,7 +14,6 @@ import type { CaseKind, EvalCase, Suite } from "./types.ts";
 import { ASDSTE100_CASES } from "./simplified-technical-english/cases/index.ts";
 import { ADR_CASES } from "./write-adrs/cases/index.ts";
 import { OBJECTIVES_CASES } from "./write-objectives/cases/index.ts";
-import { BROMETAL_CASES } from "./brometal-patching/cases/index.ts";
 import { GENERAL_WRITE_DOCS_CASES } from "./write-docs/cases/index.ts";
 import { GENERAL_ENGINEERING_CASES } from "./engineering/cases/index.ts";
 import { SHOW_ME_CASES } from "./show-me/cases/index.ts";
@@ -26,7 +25,6 @@ export const SUITES = {
   "simplified-technical-english": ASDSTE100_CASES,
   "write-adrs": ADR_CASES,
   "write-objectives": OBJECTIVES_CASES,
-  "brometal-patching": BROMETAL_CASES,
   "write-docs": GENERAL_WRITE_DOCS_CASES,
   "engineering": GENERAL_ENGINEERING_CASES,
   "show-me": SHOW_ME_CASES,

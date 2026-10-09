@@ -64,7 +64,6 @@ export type Suite =
   | "simplified-technical-english"
   | "write-adrs"
   | "write-objectives"
-  | "brometal-patching"
   | "write-docs"
   | "engineering"
   | "show-me"
@@ -239,7 +238,6 @@ export const SKILLS = {
   ste: "simplified-technical-english",
   adr: "write-adrs",
   objectives: "write-objectives",
-  brometal: "brometal-patching",
   writeDocs: "write-docs",
   engineering: "engineering",
   showMe: "show-me",

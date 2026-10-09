@@ -1,4 +1,0 @@
-interface:
-  display_name: "BroMetal Patching"
-  short_description: "Patch BroMetal, upstream the fix, retire the patch"
-  default_prompt: "Use $brometal-patching update to bump BroMetal and retire landed patches."

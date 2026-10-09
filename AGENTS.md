@@ -83,8 +83,7 @@ Rules:
 `general` holds working practices that can be installed in any repository. The category belongs in
 the path, not in the skill name. `skills/general/write-adrs/` therefore declares `name: write-adrs`.
 
-Classify by what the skill teaches, not by words in its subject. `brometal-patching` belongs under
-`general/` because dependency patching is a portable working practice. A new category needs a human
+Classify by what the skill teaches, not by words in its subject. A new category needs a human
 owner's decision and a matching entry in [`README.md`](README.md).
 
 ## Writing rules
