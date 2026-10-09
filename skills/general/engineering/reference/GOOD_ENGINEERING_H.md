@@ -144,3 +144,14 @@ What follows are short bullet points on what makes good engineering, will be exp
 - Files above 500 lines require a cohesion review.
 - Files above 800 lines should normally be decomposed.
 - Split by responsibility and ownership, not merely to satisfy a line count.
+
+## Bound Resources and State Transitions
+- Name limits for queues, retries, payloads and work per request; define what happens at each limit.
+- State the invariant before choosing assertions. Assert programmer errors; handle external failures explicitly.
+- Test empty, maximum and over-limit inputs, plus failure transitions. Fuzzing supplements these tests.
+- Keep ownership, initialization and cleanup explicit. Avoid duplicate state that can drift.
+- Put checks near the operation they protect; make index, count and size units clear.
+- Sketch resource costs during design as hypotheses. Measure actual bottlenecks before optimizing.
+
+These principles adapt selected [TigerStyle](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md)
+ideas. Its static-allocation policy, assertion quotas and Zig-specific limits are not general requirements.

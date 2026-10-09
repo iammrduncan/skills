@@ -91,3 +91,35 @@ export function enclosingFunction(node) {
 
 /** A rule message: what is wrong, the fix, and the cheap fix named so it is not taken. */
 export const advice = (detail, doThis, neverThis) => `${detail} Do: ${doThis} Never: ${neverThis}`;
+
+import {
+  createTypeAliasEnvironment,
+  resolvedTypeMatches,
+  hasVisibleTypeBinding,
+} from "./helpers/type-alias-resolution.mjs";
+
+/** Resolve local aliases without guessing imported types or crossing lexical scopes. */
+export function resolvedContractMatcher(context, kind, promises = false) {
+  let environment;
+  return (type, requestedKind = kind) => {
+    if (!environment) {
+      let program = type;
+      while (program.parent) program = program.parent;
+      environment = createTypeAliasEnvironment(program, context.sourceCode.visitorKeys);
+    }
+    return resolvedTypeMatches(type, environment, (resolved, matches) => {
+      if (resolved.type === "TSUnknownKeyword") return requestedKind === "top" || requestedKind === "unknown";
+      if (resolved.type === "TSAnyKeyword") return requestedKind === "top" || requestedKind === "any";
+      if (resolved.type === "TSObjectKeyword") return requestedKind === "object";
+      if (resolved.type === "TSParenthesizedType") return matches(resolved.typeAnnotation);
+      if (resolved.type === "TSUnionType") return resolved.types.some(matches);
+      if (promises && resolved.type === "TSTypeReference" &&
+          ["Promise", "PromiseLike"].includes(typeReferenceName(resolved)) &&
+          !hasVisibleTypeBinding(typeReferenceName(resolved), resolved, environment)) {
+        const value = (resolved.typeArguments || resolved.typeParameters)?.params[0];
+        return !!value && matches(value);
+      }
+      return false;
+    });
+  };
+}

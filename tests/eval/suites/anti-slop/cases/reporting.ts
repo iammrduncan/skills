@@ -3,7 +3,7 @@
  *
  * Two disciplines the skill states as absolute, and both fail silently:
  *
- *   1. A clean run means twenty-eight rules found nothing. It does not mean the
+ *   1. A clean run means the selected rules found nothing. It does not mean the
  *      repository is free of slop. An agent that reports the second has made a
  *      claim the evidence does not support — the same defect the prose rules
  *      catch, committed by the tool that catches it.

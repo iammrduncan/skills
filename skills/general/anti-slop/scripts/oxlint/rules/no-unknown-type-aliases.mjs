@@ -34,14 +34,15 @@
  * An alias for `unknown` makes the absence of a type look like a type.
  */
 
-import { advice, isTopType } from "../shared.mjs";
+import { advice, resolvedContractMatcher } from "../shared.mjs";
 
 export default {
   meta: { docs: { description: "Disallow type aliases that resolve to unknown or any." } },
   create(context) {
+    const matches = resolvedContractMatcher(context, "top");
     return {
       TSTypeAliasDeclaration(node) {
-        if (!isTopType(node.typeAnnotation)) return;
+        if (!matches(node.typeAnnotation)) return;
         context.report({
           node,
           message: advice(

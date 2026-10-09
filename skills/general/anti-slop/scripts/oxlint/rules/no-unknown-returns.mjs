@@ -34,14 +34,15 @@
  * A function returning `unknown` moves the parsing onto every caller.
  */
 
-import { advice, isTopType } from "../shared.mjs";
+import { advice, resolvedContractMatcher } from "../shared.mjs";
 
 export default {
   meta: { docs: { description: "Disallow functions annotated as returning unknown or any." } },
   create(context) {
+    const matches = resolvedContractMatcher(context, "top", true);
     const check = (node) => {
       const annotation = node.returnType && node.returnType.typeAnnotation;
-      if (!annotation || !isTopType(annotation)) return;
+      if (!annotation || !matches(annotation)) return;
       context.report({
         node: node.returnType,
         message: advice(
@@ -56,6 +57,11 @@ export default {
       FunctionExpression: check,
       ArrowFunctionExpression: check,
       TSDeclareFunction: check,
+      TSEmptyBodyFunctionExpression: check,
+      TSCallSignatureDeclaration: check,
+      TSConstructSignatureDeclaration: check,
+      TSConstructorType: check,
+      TSFunctionType: check,
       TSMethodSignature: check,
     };
   },

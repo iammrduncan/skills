@@ -125,3 +125,5 @@ Bash(open path/to/show-me-{description}.html)
 Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
 
 You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.
+
+Source: [humanlayer/skills](https://github.com/humanlayer/skills), reviewed at `bba9d13ab34f0a87f1cc33df4dd196372393ddfc`. The body derives from `6ab9013a` (2026-08-13), under MIT; see [LICENSE.md](LICENSE.md). This adaptation retains implicit invocation for visual explanation requests.

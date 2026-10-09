@@ -73,7 +73,7 @@ gh pr create --repo ericdrowell/brometal --head <you>:<branch> \
 
 ### 6. Tag the local patch with the pull request
 
-Back in the Antiky repository, put the URL and the title in the patch module's header:
+Back in the consuming repository, put the URL and the title in the patch module's header:
 
 ```js
  * **Upstream: https://github.com/ericdrowell/brometal/pull/NN**
@@ -98,7 +98,7 @@ anyone who was not there, and `update` has nothing to check.
 ## Do not
 
 - Do not bundle two patches into one pull request without saying why and offering to split.
-- Do not send an Antiky preference upstream. ADR 0021: a contribution must help renderers in general
+- Do not send a project-specific preference upstream. A contribution must help renderers in general
   or correct an error.
 - Do not open a pull request against `dist/`.
 - Do not delete the local patch when the pull request opens. It is retired when the change is merged

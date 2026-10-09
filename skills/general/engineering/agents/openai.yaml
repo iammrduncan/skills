@@ -1,4 +1,4 @@
 interface:
   display_name: "Engineering Sidekick"
-  short_description: "Gut-check, talk it out, plan it, grill it"
+  short_description: "Review engineering work; audit or generate agent instructions"
   default_prompt: "Use $engineering gut-check on this approach before I build it."

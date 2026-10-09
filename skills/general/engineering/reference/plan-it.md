@@ -1,5 +1,7 @@
 # plan-it
 
+Read-only. This command does not write files.
+
 Bring engineering judgement to a piece of work: what to build, in what order, and what not to build.
 
 ## This produces thinking, not the artifact
@@ -55,7 +57,7 @@ deliberately excluding, and why.
 - the shape of the work, and the sequence with its reasons;
 - the tradeoffs, with costs named;
 - what you would not do;
-- the assumption most likely to break the estimate;
+- the assumption most likely to change scope or sequencing;
 - **what needs the owner** before anything starts;
 - if this is objective-sized: say so, and hand to `write-objectives create-plan` for the
   document.
@@ -64,6 +66,6 @@ deliberately excluding, and why.
 
 - Do not write the plan document when the objectives skill owns it.
 - Do not sequence work whose problem is not yet stated.
-- Do not give an estimate without naming what it assumes.
+- Do not report development-time estimates. State scope, risk, dependencies, and complexity instead.
 - Do not produce phases that are just the work restated in order. A phase boundary should be a point
   where something becomes knowable that was not knowable before.

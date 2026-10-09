@@ -13,6 +13,7 @@ import { inSuite } from "../../types.ts";
 import { TRIGGER_CASES } from "./trigger.ts";
 import { AUDIT_CASES } from "./audit.ts";
 import { REPORTING_CASES } from "./reporting.ts";
+import { PROSE_REVIEW_CASES } from "./prose-review.ts";
 import { FIX_CASES } from "./fix.ts";
 
 export const ANTI_SLOP_CASES = inSuite("anti-slop", [
@@ -20,4 +21,5 @@ export const ANTI_SLOP_CASES = inSuite("anti-slop", [
   ...AUDIT_CASES,
   ...REPORTING_CASES,
   ...FIX_CASES,
+  ...PROSE_REVIEW_CASES,
 ]);

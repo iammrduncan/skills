@@ -1,0 +1,5 @@
+{
+  "name": "small-project",
+  "private": true,
+  "scripts": { "test": "node --test calc.test.mjs" }
+}

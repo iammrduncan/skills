@@ -81,12 +81,13 @@ risk.
 
 ## Ownership
 
-Do not apply fixes to a human-owned document — an `_H` file in an Antiky repository, an accepted
-ADR, or an accepted AIP — without an explicit instruction from its owner. Run `audit` and report.
+Do not apply fixes to a human-owned document, such as an `_H` file where that convention marks
+ownership, an accepted ADR, or an accepted AIP, without an explicit instruction from its owner.
+Run `audit` and report.
 
 For an owner-approved change to an accepted record, follow the repository's own procedure for
-preserving the prior text before you edit. In Antiky documentation repositories that means running
-the revision-history script while `HEAD` still holds the previous wording.
+preserving the prior text before you edit. If the repository requires a revision-history script, run
+it while `HEAD` still holds the previous wording.
 
 Do not rewrite a document for STE conformance only because it does not conform. Conformance work on
 an existing accepted record is a decision its owner makes.

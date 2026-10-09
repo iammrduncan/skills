@@ -64,7 +64,7 @@ Re-pitch the same claim:
 - **Write it in ASD-STE100 Simplified Technical English.** Short active sentences, one topic each,
   approved vocabulary. Load `simplified-technical-english` if you need the rules, and run
   its linter over the re-pitch if it is more than a couple of sentences.
-- **Use the terms this repository already uses.** Read `CONTEXT.md` if there is one, otherwise the
+- **Use the terms this repository already uses.** Read the established `CONTEXT.md`, `GLOSSARY.md`, or `GLOSSARY-MAP.md` if present, otherwise the
   nearest `AGENTS.md`, and the ADRs for anything architectural. Do not reach for a synonym because
   it reads better — a new word for a known thing is how this failed in the first place.
 - **Cut the scaffolding.** Named intermediate steps, hedges, and restated premises are usually what

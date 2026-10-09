@@ -1,2 +1,2 @@
 @AGENTS.md
-@docs/GOOD_ENGINEERING_H.md
+@skills/general/engineering/reference/GOOD_ENGINEERING_H.md

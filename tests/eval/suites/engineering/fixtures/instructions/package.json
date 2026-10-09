@@ -1,0 +1,6 @@
+{
+  "name": "instruction-fixture",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": { "test": "node --test packages/worker/queue.test.mjs" }
+}

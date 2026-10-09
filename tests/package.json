@@ -1,5 +1,5 @@
 {
-  "name": "@antikylabs/skills-tests",
+  "name": "@iammrduncan/skills-tests",
   "private": true,
   "type": "module",
   "description": "Test and evaluation harness for the skills in this repository.",
@@ -9,7 +9,7 @@
     "test:skill-behavior": "node --env-file-if-exists=.env node_modules/tsx/dist/cli.mjs eval/run.ts",
     "test:skill-behavior:live": "EVAL_PROVIDER=openrouter node --env-file-if-exists=.env node_modules/tsx/dist/cli.mjs eval/run.ts",
     "test:skill-behavior:paired": "EVAL_PROVIDER=openrouter EVAL_BASELINE=1 node --env-file-if-exists=.env node_modules/tsx/dist/cli.mjs eval/run.ts",
-    "sandbox:build": "podman build -t antiky-skills-eval -f eval/Dockerfile ..",
+    "sandbox:build": "podman build -t iammrduncan-skills-eval -f eval/Dockerfile ..",
     "sandbox:rebuild": "EVAL_REBUILD=1 tsx eval/run.ts",
     "typecheck": "tsc --noEmit",
     "test:unit": "tsx --test unit/*.test.ts"

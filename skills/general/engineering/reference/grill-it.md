@@ -1,5 +1,7 @@
 # grill-it
 
+Read-only. This command does not write files.
+
 Adversarial review of something that already exists. This is our review **and** our audit.
 
 ## Stance
@@ -40,6 +42,10 @@ Work these deliberately. Most reviews only ever run the first one.
 
 The last one produces the most valuable findings, and it is the one a defect-focused review never
 reaches.
+
+Trace resource limits, ownership and initialization, and both valid and invalid state transitions.
+Distinguish invariant assertions from recoverable external errors. Inspect boundary tests and the
+failure model; passing examples alone do not establish behavior at capacity or after partial failure.
 
 ### 3. Verify before reporting
 

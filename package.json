@@ -1,12 +1,12 @@
 {
-  "name": "@antikylabs/skills",
-  "version": "0.7.0",
+  "name": "@iammrduncan/skills",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
-  "description": "Agent skills used by the Antiky Framework, BroMetal, Antiky Studio, and the Antiky team.",
+  "description": "Portable engineering and writing skills for coding agents.",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/antikylabs/skills.git"
+    "url": "git+ssh://git@github.com/iammrduncan/skills.git"
   },
   "scripts": {
     "release": "node scripts/release.mjs",

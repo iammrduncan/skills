@@ -1,15 +1,17 @@
 # `code` — the Oxlint rules
 
-Read-only. Run the project's own linter; the rules live inside it.
+Read-only. Run the project's existing Oxlint executable; the rules live inside it.
+Do not install a linter during review. If Oxlint or its required Node interpreter is absent,
+report the gap. Consult installed types and current documentation when interpreting rule behavior.
 
 ```bash
-npx oxlint                       # whatever the project's config covers
-npx oxlint src/ --format=json
+./node_modules/.bin/oxlint                       # whatever the project's config covers
+./node_modules/.bin/oxlint src/ --format=json
 ```
 
 If the plugin is not installed yet, that is [`install`](install.md).
 
-## The five rules
+## The five evidence rules
 
 ### `no-tautological-assertion`
 
@@ -81,20 +83,59 @@ The rule follows the conventional `-- reason` separator after a rule list, so
 around the checker instead of the problem. Requiring the reason keeps the hatch and makes each use
 reviewable.
 
+## The fifteen adapted TypeScript rules
+
+The plugin also checks assertion chains, unknown/any returns and parameters, unknown aliases,
+unsafe dictionary values, known-value widening, widening followed by assertion, ad hoc runtime
+`typeof`, object parameters, module mocks, Reflect apply/get, empty-object conditional spreads,
+shape-named symbols and assertions without safety comments.
+
+Read the installed rule and its passing fixtures when a technical use looks legitimate. Examples
+include declared type predicates, `typeof` undefined probes, constrained dictionaries and explicit
+safety invariants. Alias/default type resolution is bounded by the installed implementation.
+These checks identify selected type patterns; they do not replace the TypeScript compiler or
+establish complete type safety. Fixtures and rule exports are the current inventory.
+
 ## Verifying the plugin actually loaded
 
 A plugin that fails to load reports nothing and exits 0 — indistinguishable from a clean run. Lint a
 shipped fixture to prove otherwise:
 
 ```bash
-npx oxlint tools/anti-slop/fixtures/no-tautological-assertion.fires.ts
+./node_modules/.bin/oxlint tools/anti-slop/fixtures/no-tautological-assertion.fires.ts
 ```
 
 Every rule ships `<rule>.fires.ts` and `<rule>.passes.ts`. The first must produce findings and the
 second must produce none.
 
+## Manual evidence pass
+
+Inspect whether assertions exercise behavior and whether expected values follow independently
+from a specification, hand calculation or reference. A test comparing implementation output
+against a copied version of the same calculation can pass while both are wrong. Where warranted,
+break behavior in an isolated copy and verify the test catches it; discard the mutation afterward.
+Run examples using declared dependencies and compare printed output with actual output. Resolve
+imports, commands and paths; report missing requirements. Attribute measurements to their source
+and separate observed results, calculated estimates and publisher reports. Record revision,
+command and environment. Report what you ran and what you inspected separately.
+
+## Context and resource review
+
+Read the surrounding module and callers alongside the diff. Flag comments that merely narrate
+operations, new wrappers that add no useful boundary, duplicate canonical helpers, and special-case
+branches that increase the state a reader must track. Explain the concrete cost; local style alone
+is not proof of a defect. Preserve rationale comments and documented exceptions.
+
+For an apparently redundant guard, trace the runtime validation and possible callers first.
+A TypeScript annotation or non-null assertion does not validate external input. Preserve boundary
+checks and invariant assertions unless evidence establishes that they are redundant.
+
+Check queue/retry limits and overflow behavior, state ownership and cleanup, and failures between
+related updates. Compare boundary tests with the declared contract. Report missing evidence rather
+than claiming the linter checks these properties. Review stays read-only; suggest focused remedies.
+A clean score, reduced line count or removed suppression does not establish preserved behavior.
+
 ## What this does not check
 
-Type safety — that is [`dmmulroy/anti-slop`](https://github.com/dmmulroy/anti-slop). Complexity,
-duplication, and dead exports — `eslint-plugin-sonarjs`, `jscpd`, `knip`. Whether a test asserts the
-*right* thing — only mutation testing answers that, and it is not cheap. Say so when reporting.
+Complete type safety. Complexity, duplication, and dead exports — `eslint-plugin-sonarjs`, `jscpd`, `knip`. Whether a test asserts the
+*right* thing requires independent reasoning; mutation testing can supply additional evidence. Say so when reporting.

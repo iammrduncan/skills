@@ -15,7 +15,7 @@ of invented terms is worse than none, because it will be cited.
 
 ### 1. Refuse if one exists
 
-If `CONTEXT.md` is present, **stop and say so.** Report where it is and what it covers.
+If `CONTEXT.md`, `GLOSSARY.md`, or `GLOSSARY-MAP.md` is present, **stop and say so.** Report where it is and what it covers. Preserve the repository's chosen name.
 
 Regenerating a curated glossary is the worst thing this command can do: the corrections a human made
 are exactly the part that cannot be regenerated. If it needs updating, that is an edit to specific
@@ -70,7 +70,7 @@ Say plainly:
 
 ## Do not
 
-- Do not overwrite an existing `CONTEXT.md`.
+- Do not overwrite an existing `CONTEXT.md`, `GLOSSARY.md`, or `GLOSSARY-MAP.md`.
 - Do not invent a term because a concept seems to need one. If the repository has no word for it,
   that is a finding, not a gap to fill.
 - Do not include a term you found once.

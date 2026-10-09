@@ -1,20 +1,6 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/antiky-labs-wordmark-and-text-white.png">
-    <source media="(prefers-color-scheme: light)" srcset="docs/assets/brand/antiky-labs-wordmark-and-text-black.png">
-    <img src="docs/assets/brand/antiky-labs-wordmark-and-text-black.png" alt="Antiky Labs" width="372">
-  </picture>
+# iamMrDuncan agent skills
 
-  <br>
-  <strong>Portable ways of working for coding agents.</strong>
-  <br><br>
-
-  [Website](https://antikylabs.com) &nbsp;·&nbsp; [Discord](https://discord.gg/3Qs2uejUf9)
-</p>
-
-# Antiky agent skills
-
-Skills used by the Antiky Framework, BroMetal, Antiky Studio, and the Antiky team.
+Portable ways of working for coding agents. Each skill works independently of this repository.
 
 Each leaf directory under [`skills/`](skills/) is an independently installable agent skill. Skills
 follow the [Agent Skills specification](https://agentskills.io) and install with the open
@@ -24,16 +10,16 @@ follow the [Agent Skills specification](https://agentskills.io) and install with
 
 ```bash
 # List the skills in this repository
-npx skills add antikylabs/skills --list
+npx skills add iammrduncan/skills --list
 
 # Install one skill
-npx skills add antikylabs/skills --skill write-adrs
+npx skills add iammrduncan/skills --skill write-adrs
 
 # Install several skills for a specific agent
-npx skills add antikylabs/skills -a claude-code --skill write-adrs --skill write-objectives
+npx skills add iammrduncan/skills -a claude-code --skill write-adrs --skill write-objectives
 
 # Install everything
-npx skills add antikylabs/skills --all
+npx skills add iammrduncan/skills --all
 ```
 
 Add `-g` to install to your user directory instead of the current project.
@@ -41,7 +27,7 @@ Add `-g` to install to your user directory instead of the current project.
 ## Use without installing
 
 ```bash
-npx skills use antikylabs/skills@write-adrs | claude
+npx skills use iammrduncan/skills@write-adrs | claude
 ```
 
 ## Categories
@@ -62,7 +48,7 @@ Skills are grouped by category without carrying that category in their names.
 | [`simplified-technical-english`](skills/general/simplified-technical-english/) | Ready | Write, audit, and fix text against ASD-STE100 Issue 9. Carries a deterministic linter and the controlled vocabulary. |
 | [`write-docs`](skills/general/write-docs/) | Ready | Write and audit user-facing documentation with Diátaxis. Covers each page type and the way it fails. |
 | [`show-me`](skills/general/show-me/) | Ready | Explain the current topic with the smallest useful visual: a diagram, code-shape sketch, diff, or focused HTML artifact. |
-| [`engineering`](skills/general/engineering/) | Ready | A principal-engineer sidekick for judgement. Gut-check, talk out, plan, or grill. Read-only. |
+| [`engineering`](skills/general/engineering/) | Ready | Engineering judgment plus evidence-based auditing and generation of repository agent instructions. |
 | [`anti-slop`](skills/general/anti-slop/) | Ready | Reject what looks like evidence and is not: tests that cannot fail, discarded errors, stubs, orphan scripts, claims with no referent. Ships a twenty-rule Oxlint plugin and two Node-only linters. |
 | [`wait-what`](skills/general/wait-what/) | Ready | Re-pitch something that did not land. Human-invoked only — it stays out of the model's catalog. |
 
@@ -87,7 +73,7 @@ table; each command has its own playbook under `reference/`.
 | `brometal-patching` | `update`, `patch`, `pr` |
 | `write-objectives` | `init`, `create-research`, `create-plan`, `create-goals`, `execute`, `audit`, `complete-goal`, `complete-objective` |
 | `write-docs` | `classify`, `write`, `audit`, `split` |
-| `engineering` | `gut-check`, `talk-it-out`, `plan-it`, `grill-it` |
+| `engineering` | `gut-check`, `talk-it-out`, `plan-it`, `grill-it`, `audit-agent-instructions`, `generate-agent-instructions` |
 | `anti-slop` | `install`, `code`, `prose`, `structure` |
 | `wait-what` | *(bare)*, `init` |
 
@@ -116,6 +102,8 @@ Then fill in the frontmatter and the body. See [`AGENTS.md`](AGENTS.md) for the 
 
 Set `metadata.internal: true` in the frontmatter. The CLI then hides the skill unless the installer
 sets `INSTALL_INTERNAL_SKILLS=1`.
+
+See [the source record](docs/SOURCES.md) for reviewed upstream revisions and intentional adaptations.
 
 ## Third-party notices
 

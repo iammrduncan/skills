@@ -21,8 +21,7 @@ repository layout are one skill rather than three.
 
 ## The rule that governs every command
 
-**Never report a codebase clean when you only ran the checkers.** They decide twenty-eight named
-rules.
+**Never report a codebase clean when you only ran the checkers.** They decide named rules and advisory patterns.
 Whether an abstraction is premature, whether a module is deep, whether a test asserts the *right*
 thing — none of that is here, and no run of these tools says anything about it. Report the machine
 result and the judgement result separately, and name what you did not check.
@@ -40,7 +39,8 @@ Resolve `<skill-dir>` to the base directory the runtime reports for this skill. 
 reports none, use `.claude/skills/anti-slop/` or `.agents/skills/anti-slop/`. Keep
 cwd at the user's project.
 
-The two checkers need Node and nothing else. Each finds its data file automatically, beside the
+The two checkers need Node.js 18 or newer and nothing else. If the interpreter is absent, report
+the gap; do not install a replacement or claim the checks ran. Each finds its data file automatically, beside the
 script:
 
 ```bash
@@ -61,7 +61,7 @@ or above the threshold; exit 2 means the tool could not run.
 | --- | --- | --- | --- |
 | `install` | Vendor the Oxlint plugin into a project and wire its config | yes | [reference/install.md](reference/install.md) |
 | `code [path]` | Run the Oxlint rules over source | no | [reference/code.md](reference/code.md) |
-| `prose [target]` | Report claims with no referent, and time estimates | no | [reference/prose.md](reference/prose.md) |
+| `prose [target]` | Review evidence, publication residue, phrasing and paragraph rhythm | no | [reference/prose.md](reference/prose.md) |
 | `structure [root]` | Report uncollected tests, orphan scripts, and directory shape | no | [reference/structure.md](reference/structure.md) |
 
 Routing:
@@ -79,8 +79,8 @@ propose the change and let the user decide.
 
 ## The rules
 
-Twenty-eight, each independently toggleable, each named for the defect. Twenty run in Oxlint;
-eight need only Node.
+Twenty rules run in Oxlint. Four structural and six prose rules need only Node; phrase and
+paragraph findings carry individual pattern identities.
 
 | Rule | Catches | Where |
 | --- | --- | --- |
@@ -96,7 +96,9 @@ eight need only Node.
 | `no-unsupported-claim` | A quality asserted of an artifact with no referent | `prose_lint.mjs` |
 | `no-time-estimate` | A duration offered as a prediction | `prose_lint.mjs` |
 | `no-empty-metaphor` | A metaphor standing in for a mechanism — `load-bearing`, `seam`, `smoking gun` | `prose_lint.mjs` |
-| `no-ai-tell` | A structural tic that carries no information | `prose_lint.mjs` |
+| `no-ai-tell` | An advisory phrase construction to inspect | `prose_lint.mjs` |
+| `no-publication-residue` | Tool handles, placeholders, tracking URLs and invisible characters | `prose_lint.mjs` |
+| `review-paragraph-rhythm` | Advisory repetition and adjacent prose/list echoes | `prose_lint.mjs` |
 
 Plus **fifteen TypeScript rules** in the same plugin, adapted from
 [`dmmulroy/anti-slop`](https://github.com/dmmulroy/anti-slop):
@@ -112,7 +114,8 @@ fixture pairs as every other rule here.
 Every rule ships a fixture that makes it fire and one that keeps it quiet, and the test suite fails
 if either is missing. A rule that has never been shown to fire is not a check.
 
-**The prose metaphor and tic rules are editable data**, as are all fifteen TypeScript rules. Their words and phrases live in the `patterns` array of
+**The prose metaphor and tic rules are editable data. TypeScript rules are executable code.**
+Prose words and phrases live in the `patterns` array of
 `scripts/prose-lint.json`, and adding one needs no code change:
 
 ```bash
@@ -120,7 +123,7 @@ if either is missing. A rule that has never been shown to fire is not a check.
 node <skill-dir>/scripts/prose_lint.mjs --self-test
 ```
 
-Each entry carries an `unless` guard, because these words have legitimate uses: a "seam" in Michael
+An entry can carry an `unless` guard, because these words have legitimate uses: a "seam" in Michael
 Feathers' sense is a term of art, and a load-bearing wall is a real thing. See
 [reference/adding-rules.md](reference/adding-rules.md).
 
@@ -153,8 +156,8 @@ of evidencing it. **Follow `Do:`, or argue that the finding is wrong. Do not tak
 | File | What it is |
 | --- | --- |
 | [reference/install.md](reference/install.md) | Vendoring the Oxlint plugin and wiring its config |
-| [reference/code.md](reference/code.md) | The five Oxlint rules and their false positives |
-| [reference/prose.md](reference/prose.md) | The two prose rules, and what they do not mean |
+| [reference/code.md](reference/code.md) | The Oxlint rules, manual evidence and false positives |
+| [reference/prose.md](reference/prose.md) | The six prose rules, local policy and manual evidence |
 | [reference/structure.md](reference/structure.md) | The four structural rules and their oracles |
 | [reference/adding-rules.md](reference/adding-rules.md) | Adding a word, a phrase, or a new prose rule |
 | [reference/adopting.md](reference/adopting.md) | Introducing this into a repository that already has findings |

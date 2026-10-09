@@ -57,7 +57,7 @@ permitted to change, and that is the point of separating them.
 
 ## Document ownership
 
-Some documents are human-owned and carry an `_H` suffix in Antiky repositories. Do not rewrite an
+Some documents are human-owned and carry an `_H` suffix where the target repository uses that convention. Do not rewrite an
 `_H` document for STE conformance without an explicit instruction from its human owner. `audit` it
 and report. This holds even when the findings are certain.
 

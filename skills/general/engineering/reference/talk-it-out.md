@@ -32,6 +32,8 @@ SOFTWARE.
 
 # talk-it-out
 
+Read-only. This command does not write files.
+
 Rounds of questions until the problem is actually stated. Then stop.
 
 Built on the grilling mechanism from [mattpocock/skills](https://github.com/mattpocock/skills).

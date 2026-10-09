@@ -213,7 +213,7 @@ export function skillPath(name: string): string {
  * and finding that out from a quiet gap in a report is worse than a build error.
  */
 export function buildShamSkills(into?: string): string {
-  const root = into ?? fs.mkdtempSync(path.join(os.tmpdir(), "antiky-sham-"));
+  const root = into ?? fs.mkdtempSync(path.join(os.tmpdir(), "skills-sham-"));
   const missing: string[] = [];
 
   for (const entry of skillEntries()) {

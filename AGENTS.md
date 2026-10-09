@@ -1,14 +1,14 @@
-# Antiky skills instructions
+# Skills repository instructions
 
 These instructions apply to this repository and all its child folders.
 
-This repository holds portable agent skills. It holds no Antiky source code. A skill in this
+This repository holds portable agent skills. It holds no application source code. A skill in this
 repository must work in any repository that installs it.
 
 ## Agent note
 
 - never use coauthored tags for claude or codex or whatever agent you are.
-- read @docs/GOOD_ENGINEERING_H.md for good practices
+- read @skills/general/engineering/reference/GOOD_ENGINEERING_H.md for good practices
 
 ## Skill layout
 
@@ -93,7 +93,7 @@ owner's decision and a matching entry in [`README.md`](README.md).
 - Give the agent a procedure, a boundary, and a verification step.
 - Do not embed version-sensitive API details. Tell the agent to read the current documentation and
   the installed types in the target project.
-- Do not depend on paths that exist only in one Antiky repository.
+- Do not depend on paths that exist only in one particular repository.
 - Use active voice and short sentences.
 
 ## Verification

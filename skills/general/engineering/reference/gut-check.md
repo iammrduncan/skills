@@ -1,5 +1,7 @@
 # gut-check
 
+Read-only. This command does not write files.
+
 A fast read on an approach before it is built. Minutes, not an audit.
 
 ## The answer might be "yes"

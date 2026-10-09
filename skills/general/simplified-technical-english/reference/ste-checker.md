@@ -84,7 +84,7 @@ Two things are deliberate, and matter when acting on output:
 - **A word missing from the dictionary is not an error.** Rules 1.5 and 1.12 let a writer use any
   technical noun or technical verb from their subject field, and those are absent from the
   dictionary by definition. Only words the dictionary explicitly lists as not approved are reported.
-  This is why `--strict` is wrong for most Antiky documents: `entity`, `shader`, and `manifest` are
+  This is why `--strict` is wrong for most domain-specific documents: `entity`, `shader`, and `manifest` are
   technical nouns.
 - **Around half the rules are not checkable here.** Approved meanings, technical noun selection,
   text structure, safety-instruction content, and consistent style need a word's part of speech in

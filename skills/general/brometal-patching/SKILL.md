@@ -8,13 +8,8 @@ description: Consume BroMetal as a patched dependency and upstream the fixes. Us
 BroMetal is pre-1.0 and moves. When it blocks us, we patch locally to stay unblocked, send the fix
 upstream, and delete the patch when it lands. We do not fork, and we do not sit on a private fix.
 
-That is a decision, not a habit. `docs/adr/framework/0021` states it:
-
-> Antiky can patch BroMetal locally. For each patch, Antiky will send a focused pull request to the
-> BroMetal project. An accepted pull request removes the need for that patch.
-
-The same ADR bounds what we send: a contribution "must help renderers in general or correct an
-error". Antiky preferences are not upstream material.
+Use the target repository's dependency and contribution policy. A portable patch fixes a defect
+or adds a capability useful to other renderers; a project-specific preference does not belong upstream.
 
 ## The rule that governs every command
 
@@ -40,7 +35,7 @@ Routing:
 - **"Send this upstream"** — `pr`.
 
 The normal order is `patch` → `pr` → (later) `update` retires it. Do not skip `pr`: a local patch
-with no upstream pull request violates ADR 0021 and becomes permanent by default.
+with no upstream pull request becomes permanent by default.
 
 ## Layout
 
@@ -66,5 +61,5 @@ one module and one PR; when it merges you delete exactly one file.
 | [reference/pr-template.md](reference/pr-template.md) | The pull request body format, section by section |
 | [reference/update.md](reference/update.md) | Version bumps, PR status checks, and retirement |
 
-Read the target repository's `AGENTS.md` and `docs/adr/framework/0021` before changing anything
-here. They are the authority; this skill carries the procedure.
+Read the target repository's `AGENTS.md` and relevant dependency ADRs before changing anything.
+Their actual paths and policies are the authority; this skill carries the procedure.

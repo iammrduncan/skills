@@ -37,11 +37,36 @@
  * value is a top type.
  */
 
-import { advice, isBroadKeyType, isTopType, typeReferenceName, unwrapType } from "../shared.mjs";
+import { advice, typeReferenceName } from "../shared.mjs";
+
+import { createTypeAliasEnvironment, resolvedTypeMatches, hasVisibleTypeBinding }
+  from "../helpers/type-alias-resolution.mjs";
 
 export default {
   meta: { docs: { description: "Disallow dictionaries whose value type asserts nothing." } },
   create(context) {
+    let environment;
+    const containsAny = (type, matches) => {
+      if (type.type === "TSAnyKeyword") return true;
+      if (type.type === "TSParenthesizedType") return matches(type.typeAnnotation);
+      return (type.type === "TSUnionType" || type.type === "TSIntersectionType") &&
+        type.types.some((member) => matches(member));
+    };
+    const match = (type, kind) => resolvedTypeMatches(type, environment, (resolved, matches) => {
+      if (resolved.type === "TSParenthesizedType") return matches(resolved.typeAnnotation);
+      if (resolved.type === "TSUnionType") return resolved.types.some(matches);
+      if (kind === "key") {
+        return ["TSStringKeyword", "TSNumberKeyword", "TSSymbolKeyword"].includes(resolved.type) ||
+          (typeReferenceName(resolved) === "PropertyKey" &&
+           !hasVisibleTypeBinding("PropertyKey", resolved, environment));
+      }
+      // A constrained intersection retains its contract; any still absorbs it.
+      if (resolved.type === "TSIntersectionType") {
+        return resolved.types.some((member) => matches(member, containsAny)) ||
+          resolved.types.every(matches);
+      }
+      return resolved.type === "TSUnknownKeyword" || resolved.type === "TSAnyKeyword";
+    });
     const report = (node) =>
       context.report({
         node,
@@ -53,19 +78,22 @@ export default {
       });
 
     return {
+      Program(node) {
+        environment = createTypeAliasEnvironment(node, context.sourceCode.visitorKeys);
+      },
       TSTypeReference(node) {
-        if (typeReferenceName(node) !== "Record") return;
+        if (typeReferenceName(node) !== "Record" || hasVisibleTypeBinding("Record", node, environment)) return;
         const args = node.typeArguments || node.typeParameters;
         const params = args && args.params;
         if (!params || params.length !== 2) return;
-        if (isBroadKeyType(params[0]) && isTopType(params[1])) report(node);
+        if (match(params[0], "key") && match(params[1], "value")) report(node);
       },
       TSIndexSignature(node) {
         const key = node.parameters && node.parameters[0];
         const keyType = key && key.typeAnnotation && key.typeAnnotation.typeAnnotation;
         const valueType = node.typeAnnotation && node.typeAnnotation.typeAnnotation;
         if (!keyType || !valueType) return;
-        if (isBroadKeyType(keyType) && isTopType(valueType)) report(node);
+        if (match(keyType, "key") && match(valueType, "value")) report(node);
       },
     };
   },

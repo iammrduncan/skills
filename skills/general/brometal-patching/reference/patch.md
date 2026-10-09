@@ -17,8 +17,8 @@ piece of work — see [pr.md](pr.md).
    filterable without a device feature — but `TARGET_FORMAT` is `rgba16float`, which *is* filterable
    in core WebGPU, and no `rgba32float` target is ever created. Half the comment was stale; the
    other half was real and had to be preserved. Say which half survives, in the patch's own comment.
-4. **Check it is upstreamable.** ADR 0021 requires a contribution to help renderers in general or
-   correct an error. If the change is an Antiky preference, it does not belong upstream, and
+4. **Check it is upstreamable.** The upstream contribution should help renderers in general or
+   correct an error. If the change is a project-specific preference, it does not belong upstream, and
    therefore does not belong in a patch either — solve it on our side of the render driver.
 
 ## Write the module

@@ -406,6 +406,6 @@ if (DRY_RUN || NO_PUSH) {
 process.stdout.write(
   `\n${bold(DRY_RUN ? `Dry run complete — ${version} not cut` : `${version} released`)}\n` +
     `    ${withPass}/${total} with the skills, ${withoutPass}/${total} without, $${cost}${costLabel}\n` +
-    (DRY_RUN || NO_PUSH ? "" : `    https://github.com/antikylabs/skills/releases/tag/${version}\n`) +
+    (DRY_RUN || NO_PUSH ? "" : `    https://github.com/iammrduncan/skills/releases/tag/${version}\n`) +
     "\n",
 );

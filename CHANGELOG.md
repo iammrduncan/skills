@@ -9,6 +9,28 @@ version, not a patch.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-08
+
+Validation: deterministic checks only. Live paired evaluation was waived by the owner after
+the configured provider rejected its credential. No model-behavior improvement is claimed.
+
+### Added
+
+- Style-source selection workflow, resource and invariant principles, and contextual manual code review from the owner notes.
+
+- Engineering instruction audit and explicit generation commands, with evidence-based conventions and Claude delegation.
+- Behavior cases for creation, nested scope, preservation, repeat stability, and routing before writes.
+- Durable upstream source revisions and intentional adaptation records.
+- Prose publication-residue and advisory paragraph/sentence checks adapted from local model work, plus explicit owner policy support.
+- Exact-location TypeScript-rule regressions and selected upstream correctness fixes.
+
+### Changed
+
+- Moved repository ownership and current branding to `iammrduncan/skills`.
+- Incorporated the remote cross-platform lint entrypoint and sandbox-probe fixes.
+- Removed project-specific company assumptions from portable dependency and STE guidance.
+- Context lookup also recognizes existing glossary files without renaming them.
+
 ### Fixed
 
 - Added `show-me` to the README skill catalog.
@@ -114,7 +136,7 @@ the framing was wrong: no discipline that makes decisions stick verifies rationa
 does not verify that a deferred repair is safe. They require a declaration and diff the declaration.
 What is checkable is the ceremony around the reasoning — that it exists, that its scope resolves,
 that deviations are named and dated. The reasoning is kept in
-[`docs/architecture-lint-research.md`](docs/architecture-lint-research.md); the objective that
+[`docs/architecture-lint-research.md`](https://github.com/iammrduncan/skills/blob/7f7b415/docs/architecture-lint-research.md); the objective that
 produced it is archived at `docs/objectives/_archives/architecture-life-summary.md`.
 
 The skill rejects one thing: **anything shaped like evidence that is not evidence.** A test that
@@ -578,7 +600,7 @@ Simplified Technical English, Issue 9.
   linter run. The linter decides 14 checks; roughly half the rules need human judgement, and the two
   results are reported separately.
 - Refuses to rewrite a human-owned `_H` document without an explicit owner instruction.
-- Carries [NOTICE.md](skills/team-simplified-technical-english/NOTICE.md): ASD-STE100 is the
+- Carries [NOTICE.md](skills/general/simplified-technical-english/NOTICE.md): ASD-STE100 is the
   property of ASD, and the skill ships the controlled vocabulary and a rule summary, not the
   standard.
 
@@ -652,9 +674,9 @@ Simplified Technical English, Issue 9.
   `/skills` to the baseline through a tool description. Both are fixed. Treat any single run of a
   small case set as a weak estimate.
 
-[Unreleased]: https://github.com/antikylabs/skills/compare/v0.2.3...HEAD
-[0.2.3]: https://github.com/antikylabs/skills/releases/tag/v0.2.3
-[0.2.2]: https://github.com/antikylabs/skills/releases/tag/v0.2.2
-[0.2.1]: https://github.com/antikylabs/skills/releases/tag/v0.2.1
-[0.2.0]: https://github.com/antikylabs/skills/releases/tag/v0.2.0
-[0.1.0]: https://github.com/antikylabs/skills/releases/tag/v0.1.0
+[Unreleased]: https://github.com/iammrduncan/skills/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/iammrduncan/skills/releases/tag/v0.2.3
+[0.2.2]: https://github.com/iammrduncan/skills/releases/tag/v0.2.2
+[0.2.1]: https://github.com/iammrduncan/skills/releases/tag/v0.2.1
+[0.2.0]: https://github.com/iammrduncan/skills/releases/tag/v0.2.0
+[0.1.0]: https://github.com/iammrduncan/skills/releases/tag/v0.1.0

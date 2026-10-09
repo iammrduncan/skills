@@ -34,21 +34,26 @@
  * An `unknown` parameter accepts anything and makes the body re-derive what it got.
  */
 
-import { advice, isTopType } from "../shared.mjs";
+import { advice, resolvedContractMatcher } from "../shared.mjs";
+import { functionParameterTypeAnnotation, functionParameterBindingName } from "../helpers/function-parameters.mjs";
 
 export default {
   meta: { docs: { description: "Disallow parameters annotated as unknown or any." } },
   create(context) {
+    const matches = resolvedContractMatcher(context, "top");
     const check = (node) => {
       for (const parameter of node.params ?? []) {
-        const target =
-          parameter.type === "AssignmentPattern" ? parameter.left
-          : parameter.type === "RestElement" ? parameter.argument
-          : parameter;
-        const annotation = target && target.typeAnnotation && target.typeAnnotation.typeAnnotation;
-        if (!annotation || !isTopType(annotation)) continue;
+        const annotation = functionParameterTypeAnnotation(parameter)?.typeAnnotation;
+        if (!annotation || !matches(annotation)) continue;
+        const name = functionParameterBindingName(parameter, context.sourceCode);
+        const predicate = node.returnType?.typeAnnotation;
+        // Unknown is the honest contract for an error cause or a predicate input.
+        // Keep the local ban on any, even in these positions.
+        if (matches(annotation, "unknown") && !matches(annotation, "any") &&
+            (name === "cause" || (predicate?.type === "TSTypePredicate" &&
+             predicate.parameterName?.name === name))) continue;
         context.report({
-          node: target,
+          node: parameter,
           message: advice(
             "This parameter accepts anything, so the body has to re-derive what it was given.",
             "take the type the caller already has, and validate at the entry point instead.",
@@ -62,6 +67,12 @@ export default {
       FunctionExpression: check,
       ArrowFunctionExpression: check,
       TSDeclareFunction: check,
+      TSEmptyBodyFunctionExpression: check,
+      TSCallSignatureDeclaration: check,
+      TSConstructSignatureDeclaration: check,
+      TSConstructorType: check,
+      TSFunctionType: check,
+      TSMethodSignature: check,
     };
   },
 };

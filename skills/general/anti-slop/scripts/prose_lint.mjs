@@ -5,7 +5,7 @@
  *     node prose_lint.mjs README.md docs/*.md
  *     node prose_lint.mjs --json --fail-on warning -
  *
- * Four rules and an editable pattern list, no configuration:
+ * Evidence and phrase checks, publication residue, advisory rhythm and explicit local policy:
  *
  *   no-unsupported-claim  a quality asserted of an artifact, with no
  *                      number, link, path, decision id, or measurement anywhere
@@ -18,8 +18,7 @@
  * Adding a word needs no code change — see reference/adding-rules.md.
  *
  * This is not an AI detector, and it makes no claim about who wrote the text.
- * It checks one property: whether an assertion carries something a reader could
- * go and verify. Vocabulary alone is not evidence of anything — see the
+ * It checks evidence, publication artifacts and review signals. Vocabulary alone is not evidence of anything — see the
  * provenance note in prose-lint.json.
  *
  * Node standard library only. No install step. The word data sits next to this
@@ -27,6 +26,8 @@
  */
 
 import fs from "node:fs";
+import { Finding, compilePattern, checkPublicationResidue, checkParagraphs, loadPolicy, checkPolicy } from "./prose_review.mjs";
+export { Finding, compilePattern, loadPolicy } from "./prose_review.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -35,28 +36,6 @@ export const SEVERITIES = ["error", "warning", "info"];
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DATA_CANDIDATES = [path.join(HERE, "prose-lint.json")];
-
-// --- Findings ---------------------------------------------------------------
-
-export class Finding {
-  constructor(filePath, line, column, severity, rule, message, text = "") {
-    this.path = filePath;
-    this.line = line;
-    this.column = column;
-    this.severity = severity;
-    this.rule = rule;
-    this.message = message;
-    this.text = text;
-  }
-
-  format() {
-    return `${this.path}:${this.line}:${this.column}: ${this.severity} [${this.rule}] ${this.message}`;
-  }
-
-  asObject() {
-    return { path: this.path, line: this.line, column: this.column, severity: this.severity, rule: this.rule, message: this.message, text: this.text };
-  }
-}
 
 // --- Word data --------------------------------------------------------------
 
@@ -101,30 +80,6 @@ export class Vocabulary {
 }
 
 const alternation = (words) => new RegExp(`\\b(?:${words.join("|")})\\b`, "i");
-
-/**
- * Prepare one entry from the `patterns` array.
- *
- * `match` may be a plain phrase or a regular expression; either way it is given
- * word boundaries, so `seams?` matches "seam" and "seams" but not "seamless".
- * That default is what makes the list safe to edit by hand — the alternative
- * silently turns every entry into a substring search. Set `"boundaries": false`
- * for a pattern that must end on punctuation.
- */
-export function compilePattern(pattern) {
-  if (!pattern.id) throw new Error("a pattern has no id");
-  if (!pattern.match) throw new Error(`pattern ${pattern.id} has no match`);
-  if (!Array.isArray(pattern.fires) || pattern.fires.length === 0) {
-    throw new Error(`pattern ${pattern.id} ships no "fires" example, so nothing proves it works`);
-  }
-  const body = pattern.boundaries === false ? pattern.match : `\\b(?:${pattern.match})\\b`;
-  return {
-    ...pattern,
-    rule: pattern.rule ?? "no-empty-metaphor",
-    regex: new RegExp(body, "i"),
-    guard: (pattern.unless ?? []).map((word) => new RegExp(`\\b${word}\\b`, "i")),
-  };
-}
 
 // --- Text preparation -------------------------------------------------------
 
@@ -207,7 +162,8 @@ export function splitSentences(text) {
       if (raw.trim().length === 0) continue;
       const lead = raw.length - raw.trimStart().length;
       const at = locate(match.index + lead);
-      sentences.push({ text: raw.trim(), line: at.line, column: at.column });
+      const sentenceStart = match.index + lead;
+      sentences.push({ text: raw.trim(), line: at.line, column: at.column, locate: (offset) => locate(sentenceStart + offset) });
     }
     block = [];
   };
@@ -223,7 +179,7 @@ export function splitSentences(text) {
     const marker = MARKER.exec(line);
     if (marker) flush();
     const body = marker ? line.slice(marker[0].length) : line;
-    const indent = line.length - body.length;
+    const indent = line.length - body.length + body.length - body.trimStart().length;
     block.push({ line: index + 1, text: body.trim(), indent });
   });
   flush();
@@ -319,19 +275,23 @@ export function checkPatterns(sentences, vocab, filePath) {
       const rule = vocab.rule(pattern.rule);
       const detail = `"${hit[0].trim()}" — ${rule.message.replace(/\.$/, "")}.`;
       const next = pattern.instead ? `Do: ${pattern.instead}.` : `Do: ${rule.next}`;
-      findings.push(
-        new Finding(filePath, sentence.line, sentence.column, rule.severity, rule.id,
-          `${detail} ${next} Never: ${rule.never}`, s),
-      );
-      break; // one finding per sentence; the first is enough to act on
+      const at = sentence.locate(hit.index);
+      const finding = new Finding(filePath, at.line, at.column, rule.severity, rule.id,
+        `${detail} ${next} Never: ${rule.never}`, s);
+      finding.pattern = pattern.id;
+      findings.push(finding);
     }
   }
   return findings;
 }
 
-export function checkText(text, filePath, vocab) {
+/** @param {{ patterns: ReturnType<typeof compilePattern>[] } | null} [policy] */
+export function checkText(text, filePath, vocab, policy = null) {
   const sentences = splitSentences(stripNonProse(text));
   return [
+    ...checkPublicationResidue(text, filePath, vocab),
+    ...checkParagraphs(text, filePath, vocab, stripNonProse, splitSentences),
+    ...checkPolicy(text, filePath, policy, stripNonProse),
     ...checkUnsupportedClaims(sentences, vocab, filePath),
     ...checkTimeEstimates(sentences, vocab, filePath),
     ...checkPatterns(sentences, vocab, filePath),
@@ -345,10 +305,11 @@ export function checkText(text, filePath, vocab) {
  * it fire. An entry whose own example does not fire is not a rule, and one that
  * fires on its own counter-example is a false-positive generator.
  */
-export function selfTest(vocab) {
+/** @param {{ patterns: ReturnType<typeof compilePattern>[] } | null} [policy] */
+export function selfTest(vocab, policy = null) {
   const failures = [];
   const check = (id, sentence, shouldFire, matches) => {
-    const fired = checkText(sentence, "<self-test>", vocab).some(matches);
+    const fired = checkText(sentence, "<self-test>", vocab, policy).some(matches);
     if (fired !== shouldFire) {
       failures.push(`${id}: expected ${shouldFire ? "a finding" : "no finding"} for ${JSON.stringify(sentence)}`);
     }
@@ -359,9 +320,14 @@ export function selfTest(vocab) {
     for (const sentence of rule.fixtures?.passes ?? []) check(rule.id, sentence, false, (f) => f.rule === rule.id);
   }
   for (const pattern of vocab.patterns) {
-    const isThis = (f) => f.rule === pattern.rule && f.text !== undefined;
+    const isThis = (f) => f.pattern === pattern.id;
     for (const sentence of pattern.fires) check(pattern.id, sentence, true, isThis);
     for (const sentence of pattern.passes ?? []) check(pattern.id, sentence, false, isThis);
+  }
+  for (const pattern of policy?.patterns ?? []) {
+    const isThis = (f) => f.rule === "local-prose-policy" && f.pattern === pattern.id;
+    for (const sentence of pattern.fires) check(`policy/${pattern.id}`, sentence, true, isThis);
+    for (const sentence of pattern.passes ?? []) check(`policy/${pattern.id}`, sentence, false, isThis);
   }
   return failures;
 }
@@ -380,6 +346,7 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --data DATA           path to prose-lint.json (default: found next to this file)
+  --policy POLICY       explicit local policy JSON; no automatic discovery
   --self-test           run every example in prose-lint.json and report
   --json                write findings as JSON
   --fail-on {error,warning,info,never}
@@ -387,7 +354,7 @@ options:
   --version             show program's version number and exit`;
 
 export function parseArgs(argv) {
-  const args = { paths: [], data: null, json: false, failOn: "error", selfTest: false };
+  const args = { paths: [], data: null, policy: null, json: false, failOn: "error", selfTest: false };
   const failOns = [...SEVERITIES, "never"];
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -395,6 +362,8 @@ export function parseArgs(argv) {
     else if (arg === "--version") return { version: true };
     else if (arg === "--self-test") args.selfTest = true;
     else if (arg === "--json") args.json = true;
+    else if (arg === "--policy") args.policy = argv[++i];
+    else if (arg.startsWith("--policy=")) args.policy = arg.slice(9);
     else if (arg === "--data") args.data = argv[++i];
     else if (arg.startsWith("--data=")) args.data = arg.slice(7);
     else if (arg === "--fail-on" || arg.startsWith("--fail-on=")) {
@@ -405,6 +374,8 @@ export function parseArgs(argv) {
     } else if (arg.startsWith("--")) throw new Error(`unrecognized arguments: ${arg}`);
     else args.paths.push(arg);
   }
+  if (args.policy !== null && (!args.policy || args.policy.startsWith("--"))) throw new Error("--policy requires a nonempty path");
+  if (argv.includes("--policy") && args.policy === undefined) throw new Error("--policy requires a nonempty path");
   if (args.paths.length === 0 && !args.selfTest) throw new Error("the following arguments are required: FILE");
   return args;
 }
@@ -427,19 +398,21 @@ export function main(argv = process.argv.slice(2)) {
   }
 
   let vocab;
+  let policy;
   try {
     vocab = Vocabulary.load(args.data);
+    policy = args.policy ? loadPolicy(args.policy) : null;
   } catch (exc) {
     process.stderr.write(`prose_lint.mjs: ${exc.message}\n`);
     return 2;
   }
 
   if (args.selfTest) {
-    const failures = selfTest(vocab);
+    const failures = selfTest(vocab, policy);
     for (const failure of failures) process.stdout.write(`FAIL ${failure}\n`);
     const examples = vocab.data.rules.reduce(
       (n, r) => n + (r.fixtures?.fires?.length ?? 0) + (r.fixtures?.passes?.length ?? 0),
-      vocab.patterns.reduce((n, p) => n + p.fires.length + (p.passes?.length ?? 0), 0),
+      [...vocab.patterns, ...(policy?.patterns ?? [])].reduce((n, p) => n + p.fires.length + (p.passes?.length ?? 0), 0),
     );
     process.stdout.write(
       failures.length === 0
@@ -458,7 +431,7 @@ export function main(argv = process.argv.slice(2)) {
       process.stderr.write(`prose_lint.mjs: ${exc.message}\n`);
       return 2;
     }
-    findings.push(...checkText(text, target === "-" ? "<stdin>" : target, vocab));
+    findings.push(...checkText(text, target === "-" ? "<stdin>" : target, vocab, policy));
   }
 
   const counts = Object.fromEntries(SEVERITIES.map((s) => [s, findings.filter((f) => f.severity === s).length]));

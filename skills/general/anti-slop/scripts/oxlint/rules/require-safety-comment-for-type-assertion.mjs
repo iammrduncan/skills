@@ -51,34 +51,51 @@ export default {
   meta: { docs: { description: "Require a comment explaining each type assertion." } },
   create(context) {
     const source = context.sourceCode;
-    let commentLines = null;
-
-    const explained = (line) => {
-      if (commentLines === null) {
-        commentLines = new Set();
-        for (const comment of source.getAllComments()) {
-          const words = comment.value.replace(/[^\p{L}\p{N}\s]/gu, " ").split(/\s+/).filter((w) => w.length > 1);
-          if (words.length < MINIMUM_WORDS) continue;
-          for (let l = comment.loc.start.line; l <= comment.loc.end.line; l += 1) commentLines.add(l);
+    const ownerKinds = new Set([
+      "ExpressionStatement", "PropertyDefinition", "ReturnStatement",
+      "ThrowStatement", "VariableDeclaration",
+    ]);
+    const explains = (comment, assertion) => {
+      // Oxlint also returns the previous statement's trailing comments here.
+      // Those explain that statement, not the next assertion.
+      let statement = assertion;
+      while (statement.parent && !ownerKinds.has(statement.type) &&
+             statement.parent.type !== "Program") statement = statement.parent;
+      const text = source.getText();
+      const lineStart = text.lastIndexOf("\n", comment.start - 1) + 1;
+      if (comment.start < statement.start &&
+          text.slice(lineStart, comment.start).trim().length > 0) return false;
+      const words = comment.value.replace(/[^\p{L}\p{N}\s]/gu, " ")
+        .split(/\s+/).filter((word) => word.length > 1);
+      return comment.end <= assertion.typeAnnotation.start && words.length >= MINIMUM_WORDS;
+    };
+    const explained = (assertion) => {
+      if (assertion.type === "TSAsExpression" &&
+          source.getCommentsAfter(assertion.expression).some((comment) =>
+            comment.start >= assertion.expression.end && explains(comment, assertion))) return true;
+      let owner = assertion;
+      while (owner && owner.type !== "Program") {
+        if (source.getCommentsBefore(owner).some((comment) => explains(comment, assertion))) return true;
+        if (ownerKinds.has(owner.type)) {
+          const parent = owner.parent;
+          return parent?.type === "ExportNamedDeclaration" &&
+            source.getCommentsBefore(parent).some((comment) => explains(comment, assertion));
         }
+        owner = owner.parent;
       }
-      return commentLines.has(line) || commentLines.has(line - 1);
+      return false;
     };
-
-    return {
-      TSAsExpression(node) {
-        if (isConstAssertion(node.typeAnnotation)) return;
-        const line = node.loc && node.loc.start.line;
-        if (line === undefined || explained(line)) return;
-        context.report({
-          node,
-          message: advice(
-            "This assertion claims the compiler is wrong and records nothing about why.",
-            `put a comment above it saying what you know that the compiler does not, in at least ${MINIMUM_WORDS} words.`,
-            "do not delete the assertion and widen the declared type instead — that spreads the claim rather than documenting it.",
-          ),
-        });
-      },
+    const check = (node) => {
+      if (isConstAssertion(node.typeAnnotation) || explained(node)) return;
+      context.report({
+        node,
+        message: advice(
+          "This assertion claims the compiler is wrong and records nothing about why.",
+          `put a comment above it saying what you know that the compiler does not, in at least ${MINIMUM_WORDS} words.`,
+          "do not delete the assertion and widen the declared type instead — that spreads the claim rather than documenting it.",
+        ),
+      });
     };
+    return { TSAsExpression: check, TSTypeAssertion: check };
   },
 };

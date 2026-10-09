@@ -4,7 +4,7 @@ The shared conventions. `write.md` and `suggest.md` both depend on this file.
 
 ## The five parts
 
-Based on Michael Nygard's original format. Every ADR has exactly these, in this order:
+Based on [Michael Nygard's original format](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions) (2011-11-15). Every ADR has exactly these, in this order:
 
 ```markdown
 # NNNN: Short decision title

@@ -39,7 +39,7 @@
  * every later use has to re-establish what was already known here.
  */
 
-import { advice, isTopType } from "../shared.mjs";
+import { advice, isTopType, unwrapExpression } from "../shared.mjs";
 
 /** An initialiser whose type is evident from the expression itself. */
 const KNOWN = new Set([
@@ -55,9 +55,7 @@ const KNOWN = new Set([
 
 export function isKnownValue(node) {
   if (!node) return false;
-  let current = node;
-  while (current.type === "ParenthesizedExpression") current = current.expression;
-  if (current.type === "TSAsExpression") return isKnownValue(current.expression);
+  const current = unwrapExpression(node);
   if (current.type === "UnaryExpression") return isKnownValue(current.argument);
   return KNOWN.has(current.type);
 }

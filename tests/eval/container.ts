@@ -26,7 +26,7 @@ export const REPO_ROOT = path.resolve(HERE, "..", "..");
  */
 export const SUITES = path.join(HERE, "suites");
 export const RUNS_DIR = path.join(HERE, "runs");
-export const IMAGE = "antiky-skills-eval";
+export const IMAGE = "iammrduncan-skills-eval";
 
 /** pi's reasoning levels, lowest to highest. */
 export const THINKING_LEVELS = ["off", "minimal", "low", "medium", "high", "xhigh"] as const;

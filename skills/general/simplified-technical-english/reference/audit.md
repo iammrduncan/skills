@@ -33,7 +33,7 @@ Add `--fail-on never` so a non-zero exit does not stop a multi-file audit. Add `
 or `--mode descriptive` when step 1 decided one.
 
 Do not add `--strict` for a normal audit. It lists every word absent from the dictionary, and rules
-1.5 and 1.12 permit any technical noun or verb from the subject field. On Antiky documents that is
+1.5 and 1.12 permit any technical noun or verb from the subject field. On domain-specific documents that is
 mostly noise: `entity`, `renderer`, `shader`, and `manifest` are technical nouns, not defects.
 
 Read [ste-checker.md](ste-checker.md) before you interpret the output. Severity states how much the
@@ -64,7 +64,7 @@ This is the part that makes the audit worth anything. Read
 | Phrasal verbs | 9.3 | A phrasal verb used where a single approved verb exists |
 | Consistency | 9.4 | One term for one meaning across the whole document |
 
-For each term you accept as a technical noun or verb, name the authority: an Antiky ADR, the
+For each term you accept as a technical noun or verb, name the authority: a project ADR, the
 Framework documentation, or a recognized subject-field source. A term you cannot source is a
 finding, not an exemption.
 

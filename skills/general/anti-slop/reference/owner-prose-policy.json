@@ -1,0 +1,88 @@
+{
+  "patterns": [
+    {
+      "id": "em-dash",
+      "match": "\u2014",
+      "scope": "raw",
+      "unless": [],
+      "boundaries": false,
+      "fires": [
+        "One\u2014two."
+      ],
+      "passes": [
+        "One, then two."
+      ],
+      "instead": "Apply the owner preference; inspect literal or technical uses",
+      "severity": "error"
+    },
+    {
+      "id": "genuinely",
+      "match": "genuinely",
+      "scope": "prose",
+      "unless": [],
+      "boundaries": true,
+      "fires": [
+        "This is genuinely useful."
+      ],
+      "passes": [
+        "The result is useful."
+      ],
+      "instead": "Apply the owner preference; inspect literal or technical uses"
+    },
+    {
+      "id": "pedigree",
+      "match": "pedigree",
+      "scope": "prose",
+      "unless": [
+        "ancestry",
+        "breeding"
+      ],
+      "boundaries": true,
+      "fires": [
+        "The library has pedigree."
+      ],
+      "passes": [
+        "The pedigree records ancestry."
+      ],
+      "instead": "Apply the owner preference; inspect literal or technical uses"
+    },
+    {
+      "id": "shape",
+      "match": "shapes?",
+      "scope": "prose",
+      "unless": [
+        "tensor",
+        "dimensions",
+        "geometry",
+        "array"
+      ],
+      "boundaries": true,
+      "fires": [
+        "The shape of the proposal is clear."
+      ],
+      "passes": [
+        "The tensor shape has three dimensions."
+      ],
+      "instead": "Apply the owner preference; inspect literal or technical uses"
+    },
+    {
+      "id": "fail-closed",
+      "match": "fail[- ]closed",
+      "scope": "prose",
+      "unless": [
+        "authentication",
+        "authorization",
+        "deny",
+        "access control"
+      ],
+      "boundaries": true,
+      "fires": [
+        "These fail-closed hardening fixes help."
+      ],
+      "passes": [
+        "Authentication must fail closed and deny access."
+      ],
+      "instead": "Apply the owner preference; inspect literal or technical uses"
+    }
+  ]
+}

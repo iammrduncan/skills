@@ -55,6 +55,8 @@ export default {
         if (node.operator !== "typeof") return;
         const parent = node.parent;
         if (!parent || parent.type !== "BinaryExpression" || !COMPARISON.has(parent.operator)) return;
+        const other = parent.left === node ? parent.right : parent.left;
+        if (other.type === "Literal" && other.value === "undefined") return;
         if (insideTypeGuard(node)) return;
         context.report({
           node: parent,

@@ -1,6 +1,7 @@
 # Adding a prose rule or a word
 
-Everything in this file is a data change. No code, no rebuild, no install.
+Phrase additions are data changes. New structural scanners need code and regression tests.
+Requires Node.js 18 or newer; report interpreter absence instead of substituting a manual scan.
 
 This covers the **prose** rules. A TypeScript rule is code, not data: write it against the
 [Oxlint plugin API](https://oxc.rs/docs/guide/usage/linter/writing-js-plugins.html) in
@@ -21,7 +22,8 @@ node <skill-dir>/scripts/prose_lint.mjs --self-test
 node <skill-dir>/scripts/prose_lint.mjs docs/*.md
 ```
 
-`--self-test` runs every example in the file and exits 1 if any is wrong. It is the whole safety net:
+`--self-test` runs every example in the file and exits 1 if any is wrong. Pattern examples
+must fire under their own identity; a sibling pattern in the same rule cannot earn credit. It is the whole safety net:
 an entry whose own example does not fire is not a rule, and an entry that fires on its own
 counter-example is a false-positive generator.
 
@@ -66,10 +68,11 @@ The entry has to let those through, and `passes` is where you prove it does.
 blunt ban, and if you cannot think of one — `smoking gun`, `north star`, `secret sauce` — then an
 empty `passes` array is the honest answer and the word can be flagged everywhere.
 
-## Quoted text is never flagged
+## Quoted phrase mentions are skipped
 
 A document about writing quotes the writing it describes. Anything inside double quotation marks is
-skipped, so this file, and any style guide, can name the words it bans without tripping over them.
+skipped by phrase checks, so a style guide can name them. Publication residue inspects original
+bytes; raw local-policy entries also inspect quotations and code.
 
 ## Which rule an entry reports as
 
@@ -87,7 +90,7 @@ a `fixtures` pair. Then point entries at it with `"rule": "<id>"`.
 
 | Field | Required | Purpose |
 | --- | --- | --- |
-| `id` | yes | Names the entry. Appears in self-test output |
+| `id` | yes | Names the entry. Appears as `pattern` in JSON and self-test output |
 | `match` | yes | A phrase, or a regular expression if it contains regex syntax |
 | `fires` | yes | Sentences that must produce a finding. At least one |
 | `passes` | no | Sentences that must not. Empty means the term has no legitimate use |
@@ -100,15 +103,16 @@ a `fixtures` pair. Then point entries at it with `"rule": "<id>"`.
 
 **Do not add fashionable vocabulary.** `delve`, `tapestry`, `testament` turn over with each model
 generation and are wrong within a year. One is included as a worked example; the rest of the
-`no-ai-tell` patterns are *shapes* rather than words, because structure does not decay. If you add a
+`no-ai-tell` patterns are *shapes* rather than words, because construction is more informative than a fashionable word list. Both need review as
+conventions and legitimate uses change. If you add a
 vocabulary entry, expect to delete it.
 
 **Do not add a word you cannot write a `fires` example for.** If you cannot produce a sentence where
 it is wrong, the entry is a preference rather than a rule.
 
 **Do not raise these above `warning`.** Vocabulary and phrasing rules are the weakest signals in this
-skill and they must never gate a build. The two evidence rules — `no-unsupported-claim` and
-`no-time-estimate` — are the ones worth failing on.
+skill and they must never gate a build. Evidence rules and publication residue can fail a check; advisory phrase/rhythm findings should
+remain review prompts. Local policy is explicit; see [prose.md](prose.md).
 
 **Do not describe any of this as AI detection.** These are writing defects. A human writes them too,
 and tools that classify authorship misfire badly on writing by people whose first language is not

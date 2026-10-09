@@ -1,60 +1,179 @@
 {
-  "schema": "antiky-claim-lint/1",
+  "schema": "skills-claim-lint/1",
   "version": "1.0.0",
   "provenance": {
     "date": "2026-08-14",
     "method": "Word sets were chosen to make a structural test possible, not to detect authorship. A finding needs a quality attribute AND an assertion verb AND an artifact subject AND the absence of any referent. No single list decides anything on its own.",
-    "calibration": "Measured over 32,483 words of this repository's prose: 0 findings. Over an AI-slop probe document: 3 of 3 claims caught. Over a deliberately well-written architecture document: 0 findings.",
+    "calibration": "Historical claim-only calibration: 32,483 repository words with zero findings, three probe claims caught, and one architecture document with zero findings. This does not calibrate the added residue, sentence-pattern or paragraph checks.",
     "notDetection": "This is not an AI-authorship detector and must never be described as one. Detectors that classify authorship misfire on non-native English writing at rates above 60% (Liang et al., 2023, n=91). A structural check for 'this assertion carries no referent' makes a different claim and carries no accusation.",
-    "shelfLife": "The structural test does not decay by model generation. Do not extend this file with fashionable vocabulary; a word list is wrong within a year, and the tokens below are load-bearing grammar rather than style markers."
+    "shelfLife": "Evidence cues and contextual guards are heuristics. Phrase and rhythm checks are advisory; vocabulary, conventions and useful constructions change. A clean result establishes only that the implemented checks found nothing.",
+    "adaptation": {
+      "date": "2026-10-08",
+      "source": "Owner model repository book-anti-slop-review, local revision 17ad3bb50d556712bd6812a9460b15df33b5b019",
+      "concepts": "Publication residue in original bytes, advisory sentence constructions and paragraph thresholds, and manual evidence review. Independently implemented in JavaScript; no book-specific paths or policy defaults.",
+      "verification": "Unit fixtures exercise individual identities, diagnostic locations, threshold boundaries, contextual exceptions and copied-skill execution. These do not establish corpus precision, recall or future permanence."
+    }
   },
   "words": {
     "qualityAttributes": [
-      "robust", "scalable", "maintainable", "performant", "secure", "reliable",
-      "resilient", "efficient", "flexible", "extensible", "modular", "seamless",
-      "elegant", "optimal", "testable", "future-proof", "battle-tested",
-      "world-class", "production-ready", "enterprise-grade", "highly available",
-      "loosely coupled", "bulletproof", "rock-solid", "blazing fast"
+      "robust",
+      "scalable",
+      "maintainable",
+      "performant",
+      "secure",
+      "reliable",
+      "resilient",
+      "efficient",
+      "flexible",
+      "extensible",
+      "modular",
+      "seamless",
+      "elegant",
+      "optimal",
+      "testable",
+      "future-proof",
+      "battle-tested",
+      "world-class",
+      "production-ready",
+      "enterprise-grade",
+      "highly available",
+      "loosely coupled",
+      "bulletproof",
+      "rock-solid",
+      "blazing fast"
     ],
     "artifactSubjects": [
-      "this", "these", "it", "our",
+      "this",
+      "these",
+      "it",
+      "our",
       "the (?:system|architecture|design|approach|solution|codebase|module|layer|change|migration|implementation|refactor|service|pipeline|api|library|framework|component)"
     ],
     "assertionVerbs": [
-      "is", "are", "remains", "stays", "becomes", "ensures", "guarantees",
-      "provides", "delivers", "offers", "improves", "enhances", "enables",
-      "will be", "makes it", "keeps it"
+      "is",
+      "are",
+      "remains",
+      "stays",
+      "becomes",
+      "ensures",
+      "guarantees",
+      "provides",
+      "delivers",
+      "offers",
+      "improves",
+      "enhances",
+      "enables",
+      "will be",
+      "makes it",
+      "keeps it"
     ],
     "evidenceTokens": [
-      "measured", "measurement", "benchmark", "benchmarked", "profiled",
-      "profiling", "we ran", "we measured", "we profiled", "load test",
-      "p50", "p95", "p99", "ms", "milliseconds", "seconds", "throughput",
-      "according to", "per the", "see "
+      "measured",
+      "measurement",
+      "benchmark",
+      "benchmarked",
+      "profiled",
+      "profiling",
+      "we ran",
+      "we measured",
+      "we profiled",
+      "load test",
+      "p50",
+      "p95",
+      "p99",
+      "ms",
+      "milliseconds",
+      "seconds",
+      "throughput",
+      "according to",
+      "per the",
+      "see "
     ],
     "nonAssertiveOpeners": [
-      "use", "using", "write", "writing", "never", "always", "prefer", "avoid",
-      "do not", "don't", "when", "if", "a", "an", "keep", "make", "treat",
-      "consider", "ask", "check", "read", "run", "state", "say", "report",
-      "aim", "try", "start", "stop", "let", "put", "give", "name", "call",
-      "why", "what", "how", "where", "which", "who"
+      "use",
+      "using",
+      "write",
+      "writing",
+      "never",
+      "always",
+      "prefer",
+      "avoid",
+      "do not",
+      "don't",
+      "when",
+      "if",
+      "a",
+      "an",
+      "keep",
+      "make",
+      "treat",
+      "consider",
+      "ask",
+      "check",
+      "read",
+      "run",
+      "state",
+      "say",
+      "report",
+      "aim",
+      "try",
+      "start",
+      "stop",
+      "let",
+      "put",
+      "give",
+      "name",
+      "call",
+      "why",
+      "what",
+      "how",
+      "where",
+      "which",
+      "who"
     ],
     "durationPattern": "\\b(?:\\d+(?:\\.\\d+)?|a|an|one|two|three|four|five|six|several|a few|a couple of)\\s*(?:-|\\s)?\\s*(?:hour|day|week|month|sprint|quarter|year)s?\\b",
     "claimDenials": [
-      "no claim", "no assertion", "not claim", "never claim", "without claiming",
-      "avoid claiming", "stop short of", "must not (?:say|claim|assert|report)",
-      "do not (?:say|claim|assert|report)", "does not (?:say|claim|assert|mean)",
-      "rather than claiming", "instead of claiming", "no one may claim"
+      "no claim",
+      "no assertion",
+      "not claim",
+      "never claim",
+      "without claiming",
+      "avoid claiming",
+      "stop short of",
+      "must not (?:say|claim|assert|report)",
+      "do not (?:say|claim|assert|report)",
+      "does not (?:say|claim|assert|mean)",
+      "rather than claiming",
+      "instead of claiming",
+      "no one may claim"
     ],
     "estimateCues": [
-      "should take", "will take", "takes about", "estimate", "estimated",
-      "eta", "expect(?:ed)? to (?:take|be done|finish|complete|ship|land)",
-      "timeline", "time to (?:complete|deliver|ship)", "delivery date",
-      "ready (?:in|by)", "done (?:in|by)", "ship(?:ping|s)? (?:in|by)",
+      "should take",
+      "will take",
+      "takes about",
+      "estimate",
+      "estimated",
+      "eta",
+      "expect(?:ed)? to (?:take|be done|finish|complete|ship|land)",
+      "timeline",
+      "time to (?:complete|deliver|ship)",
+      "delivery date",
+      "ready (?:in|by)",
+      "done (?:in|by)",
+      "ship(?:ping|s)? (?:in|by)",
       "(?:within|in|over) (?:one|a|two|three|four|\\d+) (?:sprint|quarter|cycle|milestone)s?"
     ],
     "estimateCuesRejected": {
       "note": "These fired on sentences that state a fact rather than a prediction: a cache TTL, a retry window, a rate of decay. A cue must imply that work will be finished, not merely mention a duration.",
-      "cues": ["within", "roughly", "approximately", "in about", "no more than", "at most", "by end of"]
+      "cues": [
+        "within",
+        "roughly",
+        "approximately",
+        "in about",
+        "no more than",
+        "at most",
+        "by end of"
+      ]
     }
   },
   "patterns": [
@@ -62,25 +181,68 @@
       "id": "load-bearing",
       "rule": "no-empty-metaphor",
       "match": "load-bearing",
-      "unless": ["wall", "beam", "column", "joist", "structural", "roof", "masonry"],
+      "unless": [
+        "wall",
+        "beam",
+        "column",
+        "joist",
+        "structural",
+        "roof",
+        "masonry"
+      ],
       "instead": "say what breaks if it is removed",
-      "fires": ["This is the load-bearing part of the argument."],
-      "passes": ["The load-bearing wall carries the roof above it."]
+      "fires": [
+        "This is the load-bearing part of the argument."
+      ],
+      "passes": [
+        "The load-bearing wall carries the roof above it."
+      ]
     },
     {
       "id": "seam",
       "rule": "no-empty-metaphor",
       "match": "seams?",
       "unless": [
-        "test", "testing", "refactor", "refactoring", "legacy", "inject", "substitute",
-        "fabric", "sewn", "weld", "garment", "stitch",
-        "uv", "uvs", "texture", "texel", "bake", "baked", "baking", "mesh", "atlas",
-        "unwrap", "normals", "lightmap", "tiling", "cage", "padding", "vertex", "geometry",
-        "junction", "junctions", "tile", "tiles", "skew"
+        "test",
+        "testing",
+        "refactor",
+        "refactoring",
+        "legacy",
+        "inject",
+        "substitute",
+        "fabric",
+        "sewn",
+        "weld",
+        "garment",
+        "stitch",
+        "uv",
+        "uvs",
+        "texture",
+        "texel",
+        "bake",
+        "baked",
+        "baking",
+        "mesh",
+        "atlas",
+        "unwrap",
+        "normals",
+        "lightmap",
+        "tiling",
+        "cage",
+        "padding",
+        "vertex",
+        "geometry",
+        "junction",
+        "junctions",
+        "tile",
+        "tiles",
+        "skew"
       ],
       "instead": "name the boundary: the module, the interface, or the file it runs along",
       "why": "The guard list is long because `seam` is literal in three separate trades: testing (Michael Feathers), textiles, and 3D art, where a UV seam is a real edge on a real mesh.",
-      "fires": ["The seam between the two services is where it gets messy."],
+      "fires": [
+        "The seam between the two services is where it gets messy."
+      ],
       "passes": [
         "A seam lets you change behaviour without editing the code under test.",
         "Detects seams, skew, cage misses, inverted normals, and padding failures.",
@@ -92,7 +254,9 @@
       "rule": "no-empty-metaphor",
       "match": "smoking gun",
       "instead": "state the evidence and what it proves",
-      "fires": ["That log line is the smoking gun."],
+      "fires": [
+        "That log line is the smoking gun."
+      ],
       "passes": []
     },
     {
@@ -100,7 +264,9 @@
       "rule": "no-empty-metaphor",
       "match": "north[- ]star",
       "instead": "state the goal and how it is measured",
-      "fires": ["Latency is our north star here."],
+      "fires": [
+        "Latency is our north star here."
+      ],
       "passes": []
     },
     {
@@ -108,7 +274,9 @@
       "rule": "no-empty-metaphor",
       "match": "secret sauce",
       "instead": "describe the mechanism, or say it is undocumented",
-      "fires": ["Caching is the secret sauce behind the speedup."],
+      "fires": [
+        "Caching is the secret sauce behind the speedup."
+      ],
       "passes": []
     },
     {
@@ -116,23 +284,31 @@
       "rule": "no-empty-metaphor",
       "match": "single source of truth",
       "instead": "name the file, table, or service that holds it",
-      "fires": ["The config becomes the single source of truth."],
+      "fires": [
+        "The config becomes the single source of truth."
+      ],
       "passes": []
     },
     {
       "id": "negative-parallelism",
       "rule": "no-ai-tell",
-      "match": "\\bnot (?:just|only|merely|simply) [^,.;]{2,60}[,—-] (?:it|that|this)(?:'s| is)\\b",
+      "match": "\\bnot (?:just|only|merely|simply) [^,.;]{2,60}[,\u2014-] (?:it|that|this)(?:'s| is)\\b",
       "instead": "make the second claim on its own, without the setup",
-      "fires": ["This is not just a linter — it's a way of thinking about evidence."],
-      "passes": ["This is not just for tests; the same rule applies to scripts."]
+      "fires": [
+        "This is not just a linter \u2014 it's a way of thinking about evidence."
+      ],
+      "passes": [
+        "This is not just for tests; the same rule applies to scripts."
+      ]
     },
     {
       "id": "empty-pivot",
       "rule": "no-ai-tell",
       "match": "\\b(?:but here'?s the (?:thing|kicker|catch)|here'?s (?:the thing|where it gets)|the (?:real|actual) (?:question|problem) is this)\\b",
       "instead": "delete the pivot and state the point",
-      "fires": ["But here's the thing: nobody reads the logs."],
+      "fires": [
+        "But here's the thing: nobody reads the logs."
+      ],
       "passes": []
     },
     {
@@ -140,19 +316,93 @@
       "rule": "no-ai-tell",
       "match": "\\b(?:fundamentally|profoundly|radically|dramatically) (?:changes?|shifts?|transforms?|alters?|reshapes?)\\b",
       "instead": "say what changed and by how much",
-      "fires": ["This fundamentally changes how the pipeline behaves."],
-      "passes": ["The retry policy changes how the pipeline behaves under load."]
+      "fires": [
+        "This fundamentally changes how the pipeline behaves."
+      ],
+      "passes": [
+        "The retry policy changes how the pipeline behaves under load."
+      ]
     },
     {
       "id": "delve",
       "rule": "no-ai-tell",
       "match": "delves? into",
       "instead": "say what the section covers",
-      "fires": ["This section delves into the caching layer."],
+      "fires": [
+        "This section delves into the caching layer."
+      ],
       "passes": []
+    },
+    {
+      "id": "trailing-commentary",
+      "rule": "no-ai-tell",
+      "match": ",\\s+(?:highlighting|underscoring|emphasizing|showcasing|reflecting|signaling|illustrating|demonstrating|ensuring)\\b",
+      "boundaries": false,
+      "fires": [
+        "The release landed, highlighting our commitment."
+      ],
+      "passes": [
+        "Hold the mutex, ensuring exclusive access while writing."
+      ],
+      "unless": [
+        "mutex",
+        "lock",
+        "exclusive access"
+      ],
+      "instead": "State the actor, mechanism and scope; keep a contrast that corrects a demonstrated misconception"
+    },
+    {
+      "id": "nominalization-stack",
+      "rule": "no-ai-tell",
+      "match": "\\b\\w{3,}(?:tion|ment|ance|ence|ity)\\s+of\\s+(?:the\\s+|a\\s+|an\\s+)?\\w{3,}(?:tion|ment|ance|ence|ity)\\b",
+      "boundaries": false,
+      "fires": [
+        "The implementation of optimization continues."
+      ],
+      "passes": [
+        "Conservation of momentum determines the collision."
+      ],
+      "unless": [
+        "conservation of",
+        "definition of",
+        "distribution of"
+      ],
+      "instead": "State the actor, mechanism and scope; keep a contrast that corrects a demonstrated misconception"
+    },
+    {
+      "id": "stacked-hedges",
+      "rule": "no-ai-tell",
+      "match": "\\b(?:(?:may|might|could|can)\\s+(?:potentially|possibly|perhaps|arguably|conceivably)|(?:potentially|possibly|perhaps)\\s+(?:may|might|could))\\b",
+      "boundaries": false,
+      "fires": [
+        "This might possibly improve things."
+      ],
+      "passes": [
+        "The log records whether a potentially unsafe cast could fail."
+      ],
+      "unless": [],
+      "instead": "State the actor, mechanism and scope; keep a contrast that corrects a demonstrated misconception"
+    },
+    {
+      "id": "negative-parallelism-expanded",
+      "rule": "no-ai-tell",
+      "match": "\\b(?:not\\s+(?:just|only|merely|simply)|(?:isn|aren|wasn|doesn)['\u2019]t\\s+(?:just|only|merely)|more\\s+than\\s+just)\\b",
+      "boundaries": false,
+      "fires": [
+        "This is not merely a release."
+      ],
+      "passes": [
+        "The predicate accepts not only strings but also numbers; see its truth table."
+      ],
+      "unless": [
+        "truth table",
+        "misconception",
+        "counterexample",
+        "same rule applies"
+      ],
+      "instead": "State the actor, mechanism and scope; keep a contrast that corrects a demonstrated misconception"
     }
   ],
-
   "rules": [
     {
       "id": "no-empty-metaphor",
@@ -160,10 +410,14 @@
       "message": "A metaphor is standing in for a mechanism.",
       "next": "Replace it with the thing itself.",
       "never": "Do not swap one metaphor for another. The defect is the substitution, not the particular word.",
-      "why": "These words are not banned and they are not evidence of a machine author. Each has a real technical use, which is what the `unless` guard on each pattern protects. The defect is reaching for an image instead of naming the mechanism — the same failure the claim rule catches, one level up.",
+      "why": "These words are not banned and they are not evidence of a machine author. Each has a real technical use, which is what the `unless` guard on each pattern protects. The defect is reaching for an image instead of naming the mechanism \u2014 the same failure the claim rule catches, one level up.",
       "fixtures": {
-        "fires": ["That log line is the smoking gun."],
-        "passes": ["A seam lets you change behaviour without editing the code under test."]
+        "fires": [
+          "That log line is the smoking gun."
+        ],
+        "passes": [
+          "A seam lets you change behaviour without editing the code under test."
+        ]
       }
     },
     {
@@ -174,15 +428,19 @@
       "never": "Do not treat this as evidence of who wrote the text. It is a writing defect, not an authorship finding.",
       "why": "Structural tics do not decay by model generation the way vocabulary does, which is why every pattern here is a shape rather than a word. Severity is info: these are the weakest signals in the file and they must never gate a build.",
       "fixtures": {
-        "fires": ["But here's the thing: nobody reads the logs."],
-        "passes": ["This is not just for tests; the same rule applies to scripts."]
+        "fires": [
+          "But here's the thing: nobody reads the logs."
+        ],
+        "passes": [
+          "This is not just for tests; the same rule applies to scripts."
+        ]
       }
     },
     {
       "id": "no-unsupported-claim",
       "severity": "warning",
       "message": "A quality is asserted of an artifact with nothing a reader could check.",
-      "next": "Add the referent: a number, a measurement, a link, a file path, or the decision record that settled it. If there is no referent, delete the claim — the sentence was carrying no information.",
+      "next": "Add the referent: a number, a measurement, a link, a file path, or the decision record that settled it. If there is no referent, delete the claim \u2014 the sentence was carrying no information.",
       "never": "Do not soften the claim into a hedge. \"Reasonably robust\" is the same sentence with less courage, and it still says nothing.",
       "why": "The defect in an AI-written architecture document is not vocabulary; it is confident assertion with no referent. No prose linter checks this: proselint has no such rule, and write-good's entire weasel-word check is a 26-word list.",
       "fixtures": {
@@ -225,6 +483,46 @@
           "Set the retry window to five minutes.",
           "A shipped word list is wrong within a year, because style markers turn over.",
           "The phrase \"should take about three days\" is a prediction rather than a fact."
+        ]
+      }
+    },
+    {
+      "id": "no-publication-residue",
+      "severity": "error",
+      "message": "Tool handles or unfinished publication artifacts remain",
+      "next": "Inspect the context and retain meaningful technical uses.",
+      "never": "Treat a hit count as proof of bad writing.",
+      "fixtures": {
+        "fires": [
+          "[source](https://site.test/?utm_source=chat)",
+          "```\nturn2view3\n```",
+          "<!-- oaicite -->",
+          "[insert title]",
+          "The pub\u200blication text."
+        ],
+        "passes": [
+          "Analytics campaign: https://site.test/?utm_source=email",
+          "\u0645\u06cc\u200c\u0631\u0648\u0645",
+          "\ud83d\udc69\u200d\ud83d\udcbb",
+          "[source](https://site.test/?page=2)"
+        ]
+      }
+    },
+    {
+      "id": "review-paragraph-rhythm",
+      "severity": "info",
+      "message": "Repetition may obscure the explanation",
+      "next": "Inspect the context and retain meaningful technical uses.",
+      "never": "Treat a hit count as proof of bad writing.",
+      "fixtures": {
+        "fires": [
+          "It works. We ship. They cheer.",
+          "We inspect.\n\nWe record.\n\nWe compare."
+        ],
+        "passes": [
+          "It works. We ship.",
+          "Status: it works. Result: we ship. Outcome: they cheer.",
+          "```\nIt works. We ship. They cheer.\n```"
         ]
       }
     }

@@ -10,7 +10,7 @@ Draft new text in Simplified Technical English, or rewrite an existing passage i
    writing has 25 (rule 6.3), and no more than six sentences in a paragraph (rule 6.6). A document
    can hold both, in different paragraphs.
 3. List the technical nouns and technical verbs the text needs, before you write. Rules 1.5 and
-   1.12 permit any term from the subject field, but each one needs a source: an Antiky ADR, the
+   1.12 permit any term from the subject field, but each one needs a source: a project ADR, the
    Framework documentation, or a recognized subject-field authority. Define an uncommon term where
    it first occurs. Use one term for one meaning throughout.
 
@@ -70,5 +70,5 @@ Do not describe the result as STE compliant. Say what you checked and what it fo
 
 ## When the text has a human owner
 
-Some Antiky documents carry an `_H` suffix and belong to a human owner. Draft the replacement text
+Some project documents carry an `_H` suffix and belong to a human owner. Draft the replacement text
 and show it. Do not write it into the file without an explicit instruction.
